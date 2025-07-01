@@ -671,6 +671,10 @@
             background-color: rgba(255, 255, 255, 0.05);
             border-radius: 5px;
         }
+        
+
+        
+
 
         @media (max-width: 992px) {
             .sidebar {
@@ -731,6 +735,10 @@
             .tab-container {
                 height: calc(100vh - 110px);
             }
+            
+            .images-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
         }
         
         @media (max-width: 480px) {
@@ -759,6 +767,10 @@
             .mobile-logo img {
                 width: 28px;
                 height: 28px;
+            }
+            
+            .images-grid {
+                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
             }
         }
     </style>
@@ -794,6 +806,7 @@
                     <i class="fas fa-comment-alt"></i>
                     Chat AI
                 </div>
+
                 <div class="menu-item" data-tab="ip">
                     <i class="fas fa-network-wired"></i>
                     Análise de IP
@@ -838,6 +851,8 @@
                     </div>
                 </div>
             </div>
+            
+
             
             <div class="tab-container" id="ip-tab">
                 <div class="search-box">
@@ -922,14 +937,12 @@
     </div>
     
     <div class="mobile-actions">
-        <button class="mobile-action-btn" id="mobile-action-toggle">
-            <i class="fas fa-ellipsis-v"></i>
-        </button>
         <div class="mobile-menu" id="mobile-action-menu">
             <div class="mobile-menu-item" data-tab="chat">
                 <i class="fas fa-comment-alt"></i>
                 Chat AI
             </div>
+
             <div class="mobile-menu-item" data-tab="ip">
                 <i class="fas fa-network-wired"></i>
                 Análise de IP
@@ -1005,6 +1018,8 @@
     <div class="notification" id="notification">
         Configurações salvas com sucesso!
     </div>
+    
+
 
     <script>
         let scene, camera, renderer, particles, raycaster, mouse;
@@ -1064,7 +1079,7 @@
             geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
             geometry.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
 
-            const texture = new THREE.TextureLoader().load('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAAsTAAALEwEAmpwYAAAFFmlUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4gPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iQWRvYmUgWE1QIENvcmUgNS42LWMxNDAgNzkuMTYwNDUxLCAyMDE3LzA1LzA2LTAxOjA4OjIxICAgICAgICAiPiA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPiA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtbG5zOmRjPSJodHRwOi8vcHVybC5vcmcvZGMvZWxlbWVudHMvMS4xLyIgeG1sbnM6cGhvdG9zaG9wPSJodHRwOi8vbnMuYWRvYmUuY29tL3Bob3Rvc2hvcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RFdnQ9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZUV2ZW50IyIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ0MgMjAxOCAoTWFjaW50b3NoKSIgeG1wOkNyZWF0ZURhdGU9IjIwMTktMDEtMTJUMTU6MzM6MzctMDg6MDAiIHhtcDpNb2RpZnlEYXRlPSIyMDE5LTAxLTEyVDE1OjM0OjItMDg6MDAiIHhtcDpNZXRhZGF0YURhdGU9IjIwMTktMDEtMTJUMTU6MzQ6Mi0wODowMCIgZGM6Zm9ybWF0PSJpbWFnZS9wbmciIHBob3Rvc2hvcDpDb2xvck1vZGU9IjMiIHBob3Rvc2hvcDpJQ0NQcm9maWxlPSJzUkdCIElFQzYxOTY2LTIuMSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDpkMGNiNWM2YS1mZTBhLTQzZDYtYWIyMC1hNWEwOGM2M2I1ZmMiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6ZDBjYjVjNmEtZmUwYS00M2Q2LWFiMjAtYTVhMDhjNjNiNWZjIiB4bXBNTTpPcmlnaW5hbERvY3VtZW50SUQ9InhtcC5kaWQ6ZDBjYjVjNmEtZmUwYS00M2Q2LWFiMjAtYTVhMDhjNjNiNWZjIj4gPHhtcE1NOkhpc3Rvcnk+IDxyZGY6U2VxPiA8cmRmOmxpIHN0RXZ0OmFjdGlvbj0iY3JlYXRlZCIgc3RFdnQ6aW5zdGFuY2VJRD0ieG1wLmlpZDpkMGNiNWM2YS1mZTBhLTQzZDYtYWIyMC1hNWEwOGM2M2I1ZmMiIHN0RXZ0OndoZW49IjIwMTktMDEtMTJUMTU6MzM6MzctMDg6MDAiIHN0RXZ0OnNvZnR3YXJlQWdlbnQ9IkFkb2JlIFBob3Rvc2hvcCBDQyAyMDE4IChNYWNpbnRvc2gpIi8+IDwvcmRmOlNlcT4gPC94bXBNTTpIaXN0b3J5PiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PtI7CRIMINAL8zQxO7FWx2sFu/eDsUXFxewl8AAAN9SURBVFiF7ZdNiFtVGIaf5OaSSTLJZDITZypOO5XUsY5a0dZfLFJbwYUiKm6EFQW3unGrCCIIggsXunKhCMWFLgRRRBSKtVVUtHa0bR3H2s70N5PJ/N57jopiSGq8uRlH3PTA4X7n4/u+97zvd86BHewExksWkzl+sWp3s5Glh+a+PbmyxZ0/4JXh83GxKB2sZltWnlQuhyXOCVn6YjXmrFdyLgKXvWtKutA5U3XUVk7OZ/ng9EYAGjm+eFbUoZKXMunOoRbPCUCxWmPh03eGDWyFa2XpXxdnRsgnfTCxlN2qlrq4BVqeP5Ckd2ZF3L+a5eOtjCBRCpJVJevTJj4pK+mfxYS+2VyWcEE1xM9Fcm7cLAFcZ/BgGHHwZHWOe3o9XomqNLLk1TDgI0nZ9RvZ/l5O6I+CwcRzwjcbX3OTKnTJG68c5bxOmzddxJ3djDPD42WHZW2YLYb8iFDPkjcPz/Lxn6M4pBfjlJudHnM65lDa5eV6ytIwaWjYHnC85PJuxeWRQ19fePBmKeAHY05nQuwwJTzVdXnWmGFaRpzdPsbJdsxTacpCucQHR8Z5Xws8uVLlZd/lnaTHt2HIKS/kqU6XkzJizJpzyQsYMyWPiCrnNxw8mBccLYf8KlX6WCF9rpQJJ0RExfaZsAOmtOIFKXl7aczFm2GK7bNXWdz2z7mZddl/eMXmW2HS04oHpcVLQYl3RciTtRYP1Nv81Y+ZtBSXZ4pUJfSMoql6vJYrDl3t4CcJY1JQ0Q63yYgjlsWUzMPxiMNqMC6KvNLsMO8olrIfg8kQbgxkArYlmLElc1LSyxP6Wn+o8B/+V2sA4OJ+wokWRHuqJwAuLnLvMEyPCK0O5pn4Q2PuRX/1r4Z9TTSsMgEzQHmeB+Ob8Ro2c1nIrlRkZLpVs4sCHgbsBWaB+qj0HMJm5hLIr0GYgvhb7BbwK7AMtEa1/MV/gDlGkEMmMJMDVMiLXBSJUt3sFwu2J2C1A0IUkwDniEzJpYJ+xAaUFHIQd3ILF8c6KQQ6ABWC6YGugwmvDTuxIGMdcNctlCNz0C3ow9+DkP64A5u2bDTiYfTYdIH/iF3/Pf8BMbGwd4H58J8AAAAASUVORK5CYII=');
+            const texture = new THREE.TextureLoader().load('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAAsTAAALEwEAmpwYAAAFFmlUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4gPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iQWRvYmUgWE1QIENvcmUgNS42LWMxNDAgNzkuMTYwNDUxLCAyMDE3LzA1LzA2LTAxOjA4OjIxICAgICAgICAiPiA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPiA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtbG5zOmRjPSJodHRwOi8vcHVybC5vcmcvZGMvZWxlbWVudHMvMS4xLyIgeG1sbnM6cGhvdG9zaG9wPSJodHRwOi8vbnMuYWRvYmUuY29tL3Bob3Rvc2hvcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RFdnQ9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZUV2ZW50IyIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ0MgMjAxOCAoTWFjaW50b3NoKSIgeG1wOkNyZWF0ZURhdGU9IjIwMTktMDEtMTJUMTU6MzM6MzctMDg6MDAiIHhtcDpNb2RpZnlEYXRlPSIyMDE5LTAxLTEyVDE1OjM0OjItMDg6MDAiIHhtcDpNZXRhZGF0YURhdGU9IjIwMTktMDEtMTJUMTU6MzQ6Mi0wODowMCIgZGM6Zm9ybWF0PSJpbWFnZS9wbmciIHBob3Rvc2hvcDpDb2xvck1vZGU9IjMiIHBob3Rvc2hvcDpJQ0NQcm9maWxlPSJzUkdCIElFQzYxOTY2LTIuMSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDpkMGNiNWM2YS1mZTBhLTQzZDYtYWIyMC1hNWEwOGM2M2I1ZmMiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6ZDBjYjVjNmEtZmUwYS00M2Q2LWFiMjAtYTVhMDhjNjNiNWZjIiB4bXBNTTpPcmlnaW5hbERvY3VtZW50SUQ9InhtcC5kaWQ6ZDBjYjVjNmEtZmUwYS00M2Q2LWFiMjAtYTVhMDhjNjNiNWZjIj4gPHhtcE1NOkhpc3Rvcnk+IDxyZGY6U2VxPiA8cmRmOmxpIHN0RXZ0OmFjdGlvbj0iY3JlYXRlZCIgc3RFdnQ6aW5zdGFuY2VJRD0ieG1wLmlpZDpkMGNiNWM2YS1mZTBhLTQzZDYtYWIyMC1hNWEwOGM2M2I1ZmMiIHN0RXZ0OndoZW49IjIwMTktMDEtMTJUMTU6MzM6MzctMDg6MDAiIHN0RXZ0OnNvZnR3YXJlQWdlbnQ9IkFkb2JlIFBob3Rvc2hvcCBDQyAyMDE4IChNYWNpbnRvc2gpIi8+IDwvcmRmOlNlcT4gPC94bXBNTTpIaXN0b3J5PiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PtI7CRIMINAL8zQxO7FWx2sFu/eDsUXFxewl8AAAN9SURBVFiF7ZdNiFtVGIaf5OaSSTLJZDITZypOO5XUsY5a0dZfLFJbwYUiKm6EFQW3unGrCCIIggsXunKhCMWFLgRRRBSKtVVUtHa0bR3H2s70N5PJ/N57jopiSGq8uRlH3PTA4X7n4/u+97zvd86BHewExksWkzl+sWp3s5Glh+a+PbmyxZ0/4JXh83GxKB2sZltWnlQuhyXOCVn6YjXmrFdyLgKXvWtKutA5U3XUVk7OZ/ng9EYAGjm+eFbUoZKXMunOoRbPCUCxWmPh03eGDWyFa2XpXxdnRsgnfTCxlN2qlrq4BVqeP5Ckd2ZF3L+a5eOtjCBRCpJVJevTJj4pK+mfxYS+2VyWcEE1xM9Fcm7cLAFcZ/BgGHHwZHWOe3o9XomqNLLk1TDgI0nZ9RvZ/l5O6I+CwcRzwjcbX3OTKnTJG68c5bxOmzddxJ3djDPD42WHZW2YLYb8iFDPkjcPz/Lxn6M4pBfjlJudHnM65lDa5eV6ytIwaWjYHnC85PJuxeWRQ19fePBmKeAHY05nQuwwJTzVdXnWmGFaRpzdPsbJdsxTacpCucQHR8Z5Xws8uVLlZd/lnaTHt2HEKS/kqU6XkzJizJpzyQsYMyWPiCrnNxw8mBccLYf8KlX6WCF9rpQJJ0RExfaZsAOmtOIFKXl7aczFm2GK7bNXWdz2z7mZddl/eMXmW2HS04oHpcVLQYl3RciTtRYP1Nv81Y+ZtBSXZ4pUJfSMoql6vJYrDl3t4CcJY1JQ0Q63yYgjlsWUzMPxiMNqMC6KvNLsMO8olrIfg8kQbgxkArYlmLElc1LSyxP6Wn+o8B/+V2sA4OJ+wokWRHuqJwAuLnLvMEyPCK0O5pn4Q2PuRX/1r4Z9TTSsMgEzQHmeB+Ob8Ro2c1nIrlRkZLpVs4sCHgbsBWaB+qj0HMJm5hLIr0GYgvhb7BbwK7AMtEa1/MV/gDlGkEMmMJMDVMiLXBSJUt3sFwu2J2C1A0IUkwDniEzJpYJ+xAaUFHIQd3ILF8c6KQQ6ABWC6YGugwmvDTuxIGMdcNctlCNz0C3ow9+DkP64A5u2bDTiYfTYdIH/iF3/Pf8BMbGwd4H58J8AAAAASUVORK5CYII=');
             
             const material = new THREE.PointsMaterial({
                 size: 0.5,
@@ -1216,6 +1231,84 @@
             snowflakes.forEach(snowflake => {
                 snowflake.visible = enabled;
             });
+        }
+
+
+        
+        function getTime(city) {
+            const now = new Date();
+            
+            const timezones = {
+                "acre": -5,
+                "rio branco": -5,
+                "amazonas": -4,
+                "manaus": -4,
+                "roraima": -4,
+                "boa vista": -4,
+                "rondônia": -4,
+                "porto velho": -4,
+                "pará": -3,
+                "belém": -3,
+                "amapá": -3,
+                "macapá": -3,
+                "maranhão": -3,
+                "são luís": -3,
+                "piauí": -3,
+                "teresina": -3,
+                "ceará": -3,
+                "fortaleza": -3,
+                "rio grande do norte": -3,
+                "natal": -3,
+                "paraíba": -3,
+                "joão pessoa": -3,
+                "pernambuco": -3,
+                "recife": -3,
+                "alagoas": -3,
+                "maceió": -3,
+                "sergipe": -3,
+                "aracaju": -3,
+                "bahia": -3,
+                "salvador": -3,
+                "mato grosso": -4,
+                "cuiabá": -4,
+                "mato grosso do sul": -4,
+                "campo grande": -4,
+                "goiás": -3,
+                "goiânia": -3,
+                "distrito federal": -3,
+                "brasília": -3,
+                "tocantins": -3,
+                "palmas": -3,
+                "minas gerais": -3,
+                "belo horizonte": -3,
+                "espírito santo": -3,
+                "vitória": -3,
+                "rio de janeiro": -3,
+                "são paulo": -3,
+                "paraná": -3,
+                "curitiba": -3,
+                "santa catarina": -3,
+                "florianópolis": -3,
+                "rio grande do sul": -3,
+                "porto alegre": -3,
+                "fernando de noronha": -2
+            };
+            
+            let offset = -3;
+            
+            if (city) {
+                const lowercaseCity = city.toLowerCase();
+                
+                for (const [key, value] of Object.entries(timezones)) {
+                    if (lowercaseCity.includes(key)) {
+                        offset = value;
+                        break;
+                    }
+                }
+            }
+            
+            const localTime = new Date(now.getTime() + (now.getTimezoneOffset() * 60000) + (offset * 3600000));
+            return localTime.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
         }
 
         async function translateText(text, fromLang, toLang) {
@@ -1424,6 +1517,99 @@
             return detectedLang;
         }
 
+
+
+        async function getAIResponse(message) {
+            try {
+                const mathPattern = /^[\d\s+\-*/%().,]+[=]?$/;
+                
+                if (mathPattern.test(message.trim())) {
+                    const result = calculateMathExpression(message);
+                    return `${result}`;
+                }
+                
+                if (message.toLowerCase().includes("que horas são") || 
+                    message.toLowerCase().includes("horário") || 
+                    message.toLowerCase().includes("hora atual") || 
+                    message.toLowerCase().includes("hora agora") || 
+                    message.toLowerCase().includes("horas agora")) {
+                    
+                    const cityMatch = message.match(/em\s+([a-zA-ZáàâãéèêíïóôõöúçñÁÀÂÃÉÈÊÍÏÓÔÕÖÚÇÑ\s]+)/i);
+                    const city = cityMatch ? cityMatch[1].trim() : null;
+                    
+                    const time = getTime(city);
+                    if (city) {
+                        return `O horário atual em ${city} é ${time}.`;
+                    } else {
+                        return `O horário atual de Brasília é ${time}.`;
+                    }
+                }
+                
+                const results = await searchGoogle(message);
+                
+                if (results && results.length > 0) {
+                    if (message.toLowerCase().includes('olá') || message.toLowerCase().includes('oi') || message.toLowerCase().includes('hey')) {
+                        return "Olá! Como posso ajudar você hoje? Estou aqui para responder suas perguntas sobre segurança digital, ajudar com traduções, fazer análises de endereços IP, consultar CEPs e fornecer informações sobre diversos temas. É só me dizer o que você precisa!";
+                    } else if (message.toLowerCase().includes('como você funciona') || message.toLowerCase().includes('como funciona')) {
+                        return "Sou uma inteligência artificial avançada que utiliza processamento de linguagem natural e uma vasta base de conhecimento para responder perguntas e auxiliar em diversas tarefas. Funciono através de redes neurais profundas que foram treinadas com milhões de textos para compreender e gerar linguagem natural. Posso pesquisar informações, analisar dados, traduzir textos e muito mais! No WolfGuard AI, tenho funções específicas como análise de IPs, consulta de CEPs, tradução de textos e informações sobre segurança digital. Tudo isso para proporcionar uma experiência completa de assistência virtual para você.";
+                    } else if (message.toLowerCase().includes('quem criou você') || message.toLowerCase().includes('quem te criou')) {
+                        return "Fui desenvolvido como parte do sistema WolfGuard, que também é conhecido por seu antivírus avançado. Minha principal função é fornecer assistência inteligente e proteger contra ameaças digitais. A equipe de desenvolvedores da WolfGuard combinou especialistas em segurança cibernética, inteligência artificial e experiência do usuário para criar uma ferramenta que não apenas identifica ameaças, mas também oferece uma interface amigável e múltiplas funcionalidades úteis. Estou em constante evolução, com atualizações regulares para melhorar minhas capacidades e conhecimentos.";
+                    } else {
+                        let combinedResponse = "";
+                        
+                        const maxResults = Math.min(results.length, 3);
+                        
+                        for (let i = 0; i < maxResults; i++) {
+                            if (results[i].snippet && results[i].snippet.trim() !== "") {
+                                combinedResponse += results[i].snippet + " ";
+                            }
+                        }
+                        
+                        if (combinedResponse.length < 200) {
+                            combinedResponse += `\n\nAlém disso, é importante destacar que este tema tem múltiplas perspectivas e aplicações. `;
+                            
+                            if (message.toLowerCase().includes('segurança') || 
+                                message.toLowerCase().includes('proteção') || 
+                                message.toLowerCase().includes('virus') || 
+                                message.toLowerCase().includes('malware')) {
+                                combinedResponse += `Para garantir sua segurança digital, recomendo manter todos os seus sistemas atualizados, usar senhas fortes e diferentes para cada serviço, ativar autenticação de dois fatores quando disponível e utilizar soluções de segurança confiáveis como o WolfGuard.`;
+                            } else if (message.toLowerCase().includes('tradução') || 
+                                      message.toLowerCase().includes('idioma') || 
+                                      message.toLowerCase().includes('linguagem')) {
+                                combinedResponse += `Você pode usar nossa ferramenta de tradução na aba "Tradutor" para converter textos entre diversos idiomas. Suportamos português, inglês, espanhol, francês, alemão, italiano, japonês, coreano, chinês e russo.`;
+                            } else if (message.toLowerCase().includes('ip') || 
+                                      message.toLowerCase().includes('endereço') || 
+                                      message.toLowerCase().includes('rede')) {
+                                combinedResponse += `Nossa ferramenta de análise de IP pode fornecer informações detalhadas sobre localização geográfica, provedor de internet e outros dados relacionados a endereços IP.`;
+                            } else if (message.toLowerCase().includes('cep') || 
+                                      message.toLowerCase().includes('endereço') || 
+                                      message.toLowerCase().includes('localização')) {
+                                combinedResponse += `Você pode usar nossa funcionalidade de consulta de CEP para obter informações detalhadas sobre endereços no Brasil, incluindo logradouro, bairro, cidade e estado.`;
+                            } else {
+                                combinedResponse += `Se você tiver mais perguntas sobre este ou outros temas, estou à disposição para ajudar. O WolfGuard AI está constantemente evoluindo para oferecer as melhores respostas e soluções para suas necessidades.`;
+                            }
+                        }
+                        
+                        return combinedResponse.trim();
+                    }
+                } else {
+                    return "Não consegui encontrar informações específicas sobre isso. Poderia reformular sua pergunta? Estou aqui para ajudar com informações sobre segurança digital, traduções, análise de IPs, consulta de CEPs e diversos outros temas. Ficarei feliz em tentar novamente com uma pergunta mais específica.";
+                }
+            } catch (error) {
+                if (message.toLowerCase().includes('olá') || message.toLowerCase().includes('oi') || message.toLowerCase().includes('hey')) {
+                    return "Olá! Como posso ajudar você hoje? Estou aqui para responder suas dúvidas sobre segurança digital, realizar traduções, analisar endereços IP, consultar CEPs brasileiros e muito mais. Fique à vontade para perguntar qualquer coisa!";
+                } else if (message.toLowerCase().includes('como você funciona') || message.toLowerCase().includes('como funciona')) {
+                    return "Sou uma inteligência artificial avançada que utiliza processamento de linguagem natural e uma vasta base de conhecimento para responder perguntas e auxiliar em diversas tarefas. Funciono através de redes neurais profundas que foram treinadas com milhões de textos para compreender e gerar linguagem natural. Dentro do WolfGuard AI, ofereço várias funcionalidades: chat interativo para responder perguntas, análise de endereços IP para identificar sua localização e provedor, consulta de CEPs brasileiros para obter informações de endereços, tradução entre diversos idiomas e informações sobre ameaças de segurança digital. Tudo isso é processado através de algoritmos sofisticados que permitem interações naturais e respostas precisas.";
+                } else if (message.toLowerCase().includes('quem criou você') || message.toLowerCase().includes('quem te criou')) {
+                    return "Fui desenvolvido como parte do sistema WolfGuard, que também é conhecido por seu antivírus avançado e soluções de segurança digital. Minha principal função é fornecer assistência inteligente e proteger contra ameaças digitais. A equipe por trás do meu desenvolvimento combinou especialistas em segurança cibernética, inteligência artificial, processamento de linguagem natural e experiência do usuário para criar uma ferramenta completa e versátil. O objetivo era criar não apenas uma solução de segurança, mas um assistente digital capaz de ajudar os usuários em diversas tarefas relacionadas à tecnologia. Estou em constante evolução, com atualizações regulares para melhorar minhas capacidades, conhecimentos e funcionalidades.";
+                } else if (message.toLowerCase().includes('ransomware') || message.toLowerCase().includes('vírus') || message.toLowerCase().includes('malware')) {
+                    return "Ransomware é um tipo de malware especialmente perigoso que criptografa seus arquivos e exige pagamento para descriptografá-los, geralmente em criptomoedas como Bitcoin. Para se proteger efetivamente contra ransomware e outras ameaças digitais, recomendo seguir estas práticas de segurança: \n\n1. Mantenha seu sistema operacional e todos os programas sempre atualizados\n2. Faça backups regulares de seus dados importantes em dispositivos externos desconectados da internet\n3. Use uma solução antivírus confiável como o WolfGuard, com proteção em tempo real\n4. Seja cauteloso com e-mails suspeitos, especialmente aqueles com anexos ou links\n5. Evite sites não confiáveis e downloads de fontes desconhecidas\n6. Use senhas fortes e diferentes para cada serviço\n7. Ative autenticação de dois fatores sempre que possível\n8. Mantenha-se informado sobre novas ameaças e táticas de engenharia social\n\nCaso você suspeite que seu dispositivo está infectado, desconecte-o imediatamente da internet, execute uma verificação completa com seu antivírus e consulte um especialista em segurança digital se necessário.";
+                } else {
+                    return "Estou processando sua pergunta sobre \"" + message + "\". Este é um tópico interessante que envolve vários aspectos importantes a serem considerados.\n\nCom base no que sei, posso dizer que este assunto tem implicações significativas em diferentes contextos. Muitos especialistas têm estudado este tema e desenvolvido teorias e aplicações práticas relacionadas.\n\nAlguns pontos importantes incluem a evolução histórica do conceito, suas aplicações modernas, e como ele se relaciona com outros campos de conhecimento. Há também considerações éticas e práticas que merecem atenção.\n\nSe você tiver alguma pergunta específica sobre algum aspecto deste tema, ficarei feliz em fornecer informações mais detalhadas. Alternativamente, posso ajudar com outros assuntos relacionados à segurança digital, traduções, análises de IP ou consultas de CEP.";
+                }
+            }
+        }
+
         async function searchGoogle(query) {
             try {
                 const sources = [
@@ -1574,73 +1760,6 @@
                         snippet: "O WolfGuard AI está à sua disposição para ajudar com diversas tarefas além de responder perguntas. Você pode usar nossa ferramenta para análise de endereços IP, consulta de CEPs brasileiros, tradução entre múltiplos idiomas e verificação de informações sobre ameaças de segurança digital. Experimente estas funcionalidades para aproveitar todo o potencial do sistema."
                     }
                 ];
-            }
-        }
-
-        async function getAIResponse(message) {
-            try {
-                const results = await searchGoogle(message);
-                
-                if (results && results.length > 0) {
-                    if (message.toLowerCase().includes('olá') || message.toLowerCase().includes('oi') || message.toLowerCase().includes('hey')) {
-                        return "Olá! Como posso ajudar você hoje? Estou aqui para responder suas perguntas sobre segurança digital, ajudar com traduções, fazer análises de endereços IP, consultar CEPs e fornecer informações sobre diversos temas. É só me dizer o que você precisa!";
-                    } else if (message.toLowerCase().includes('como você funciona') || message.toLowerCase().includes('como funciona')) {
-                        return "Sou uma inteligência artificial avançada que utiliza processamento de linguagem natural e uma vasta base de conhecimento para responder perguntas e auxiliar em diversas tarefas. Funciono através de redes neurais profundas que foram treinadas com milhões de textos para compreender e gerar linguagem natural. Posso pesquisar informações, analisar dados, traduzir textos e muito mais! No WolfGuard AI, tenho funções específicas como análise de IPs, consulta de CEPs, tradução de textos e informações sobre segurança digital. Tudo isso para proporcionar uma experiência completa de assistência virtual para você.";
-                    } else if (message.toLowerCase().includes('quem criou você') || message.toLowerCase().includes('quem te criou')) {
-                        return "Fui desenvolvido como parte do sistema WolfGuard, que também é conhecido por seu antivírus avançado. Minha principal função é fornecer assistência inteligente e proteger contra ameaças digitais. A equipe de desenvolvedores da WolfGuard combinou especialistas em segurança cibernética, inteligência artificial e experiência do usuário para criar uma ferramenta que não apenas identifica ameaças, mas também oferece uma interface amigável e múltiplas funcionalidades úteis. Estou em constante evolução, com atualizações regulares para melhorar minhas capacidades e conhecimentos.";
-                    } else {
-                        let combinedResponse = "";
-                        
-                        const maxResults = Math.min(results.length, 3);
-                        
-                        for (let i = 0; i < maxResults; i++) {
-                            if (results[i].snippet && results[i].snippet.trim() !== "") {
-                                combinedResponse += results[i].snippet + " ";
-                            }
-                        }
-                        
-                        if (combinedResponse.length < 200) {
-                            combinedResponse += `\n\nAlém disso, é importante destacar que este tema tem múltiplas perspectivas e aplicações. `;
-                            
-                            if (message.toLowerCase().includes('segurança') || 
-                                message.toLowerCase().includes('proteção') || 
-                                message.toLowerCase().includes('virus') || 
-                                message.toLowerCase().includes('malware')) {
-                                combinedResponse += `Para garantir sua segurança digital, recomendo manter todos os seus sistemas atualizados, usar senhas fortes e diferentes para cada serviço, ativar autenticação de dois fatores quando disponível e utilizar soluções de segurança confiáveis como o WolfGuard.`;
-                            } else if (message.toLowerCase().includes('tradução') || 
-                                      message.toLowerCase().includes('idioma') || 
-                                      message.toLowerCase().includes('linguagem')) {
-                                combinedResponse += `Você pode usar nossa ferramenta de tradução na aba "Tradutor" para converter textos entre diversos idiomas. Suportamos português, inglês, espanhol, francês, alemão, italiano, japonês, coreano, chinês e russo.`;
-                            } else if (message.toLowerCase().includes('ip') || 
-                                      message.toLowerCase().includes('endereço') || 
-                                      message.toLowerCase().includes('rede')) {
-                                combinedResponse += `Nossa ferramenta de análise de IP pode fornecer informações detalhadas sobre localização geográfica, provedor de internet e outros dados relacionados a endereços IP.`;
-                            } else if (message.toLowerCase().includes('cep') || 
-                                      message.toLowerCase().includes('endereço') || 
-                                      message.toLowerCase().includes('localização')) {
-                                combinedResponse += `Você pode usar nossa funcionalidade de consulta de CEP para obter informações detalhadas sobre endereços no Brasil, incluindo logradouro, bairro, cidade e estado.`;
-                            } else {
-                                combinedResponse += `Se você tiver mais perguntas sobre este ou outros temas, estou à disposição para ajudar. O WolfGuard AI está constantemente evoluindo para oferecer as melhores respostas e soluções para suas necessidades.`;
-                            }
-                        }
-                        
-                        return combinedResponse.trim();
-                    }
-                } else {
-                    return "Não consegui encontrar informações específicas sobre isso. Poderia reformular sua pergunta? Estou aqui para ajudar com informações sobre segurança digital, traduções, análise de IPs, consulta de CEPs e diversos outros temas. Ficarei feliz em tentar novamente com uma pergunta mais específica.";
-                }
-            } catch (error) {
-                if (message.toLowerCase().includes('olá') || message.toLowerCase().includes('oi') || message.toLowerCase().includes('hey')) {
-                    return "Olá! Como posso ajudar você hoje? Estou aqui para responder suas dúvidas sobre segurança digital, realizar traduções, analisar endereços IP, consultar CEPs brasileiros e muito mais. Fique à vontade para perguntar qualquer coisa!";
-                } else if (message.toLowerCase().includes('como você funciona') || message.toLowerCase().includes('como funciona')) {
-                    return "Sou uma inteligência artificial avançada que utiliza processamento de linguagem natural e uma vasta base de conhecimento para responder perguntas e auxiliar em diversas tarefas. Funciono através de redes neurais profundas que foram treinadas com milhões de textos para compreender e gerar linguagem natural. Dentro do WolfGuard AI, ofereço várias funcionalidades: chat interativo para responder perguntas, análise de endereços IP para identificar sua localização e provedor, consulta de CEPs brasileiros para obter informações de endereços, tradução entre diversos idiomas e informações sobre ameaças de segurança digital. Tudo isso é processado através de algoritmos sofisticados que permitem interações naturais e respostas precisas.";
-                } else if (message.toLowerCase().includes('quem criou você') || message.toLowerCase().includes('quem te criou')) {
-                    return "Fui desenvolvido como parte do sistema WolfGuard, que também é conhecido por seu antivírus avançado e soluções de segurança digital. Minha principal função é fornecer assistência inteligente e proteger contra ameaças digitais. A equipe por trás do meu desenvolvimento combinou especialistas em segurança cibernética, inteligência artificial, processamento de linguagem natural e experiência do usuário para criar uma ferramenta completa e versátil. O objetivo era criar não apenas uma solução de segurança, mas um assistente digital capaz de ajudar os usuários em diversas tarefas relacionadas à tecnologia. Estou em constante evolução, com atualizações regulares para melhorar minhas capacidades, conhecimentos e funcionalidades.";
-                } else if (message.toLowerCase().includes('ransomware') || message.toLowerCase().includes('vírus') || message.toLowerCase().includes('malware')) {
-                    return "Ransomware é um tipo de malware especialmente perigoso que criptografa seus arquivos e exige pagamento para descriptografá-los, geralmente em criptomoedas como Bitcoin. Para se proteger efetivamente contra ransomware e outras ameaças digitais, recomendo seguir estas práticas de segurança: \n\n1. Mantenha seu sistema operacional e todos os programas sempre atualizados\n2. Faça backups regulares de seus dados importantes em dispositivos externos desconectados da internet\n3. Use uma solução antivírus confiável como o WolfGuard, com proteção em tempo real\n4. Seja cauteloso com e-mails suspeitos, especialmente aqueles com anexos ou links\n5. Evite sites não confiáveis e downloads de fontes desconhecidas\n6. Use senhas fortes e diferentes para cada serviço\n7. Ative autenticação de dois fatores sempre que possível\n8. Mantenha-se informado sobre novas ameaças e táticas de engenharia social\n\nCaso você suspeite que seu dispositivo está infectado, desconecte-o imediatamente da internet, execute uma verificação completa com seu antivírus e consulte um especialista em segurança digital se necessário.";
-                } else {
-                    return "Estou processando sua pergunta sobre \"" + message + "\". Este é um tópico interessante que envolve vários aspectos importantes a serem considerados.\n\nCom base no que sei, posso dizer que este assunto tem implicações significativas em diferentes contextos. Muitos especialistas têm estudado este tema e desenvolvido teorias e aplicações práticas relacionadas.\n\nAlguns pontos importantes incluem a evolução histórica do conceito, suas aplicações modernas, e como ele se relaciona com outros campos de conhecimento. Há também considerações éticas e práticas que merecem atenção.\n\nSe você tiver alguma pergunta específica sobre algum aspecto deste tema, ficarei feliz em fornecer informações mais detalhadas. Alternativamente, posso ajudar com outros assuntos relacionados à segurança digital, traduções, análises de IP ou consultas de CEP.";
-                }
             }
         }
 
@@ -1917,6 +2036,82 @@
             const imgBtn = document.getElementById('img-btn');
             imgBtn.addEventListener('click', function() {
                 alert('Função de imagem em desenvolvimento.');
+            });
+            
+            document.getElementById('search-images').addEventListener('click', function() {
+                const imagesInput = document.getElementById('images-input').value.trim();
+                if (!imagesInput) return;
+                
+                const imagesLoading = document.getElementById('images-loading');
+                const imagesGrid = document.getElementById('images-grid');
+                
+                imagesGrid.innerHTML = '';
+                imagesLoading.style.display = 'flex';
+                
+                searchImages(imagesInput).then(images => {
+                    imagesLoading.style.display = 'none';
+                    
+                    images.forEach(image => {
+                        const imageItem = document.createElement('div');
+                        imageItem.className = 'image-item';
+                        
+                        const img = document.createElement('img');
+                        img.src = image.src;
+                        img.alt = image.alt;
+                        
+                        imageItem.appendChild(img);
+                        imagesGrid.appendChild(imageItem);
+                        
+                        imageItem.addEventListener('click', function() {
+                            const imageModal = document.getElementById('image-modal');
+                            const modalImage = document.getElementById('modal-image');
+                            const downloadLink = document.getElementById('download-image-link');
+                            
+                            modalImage.src = img.src;
+                            modalImage.alt = img.alt;
+                            downloadLink.href = img.src;
+                            downloadLink.setAttribute('download', 'imagem.jpg');
+                            
+                            imageModal.style.display = 'flex';
+                        });
+                    });
+                }).catch(() => {
+                    imagesLoading.style.display = 'none';
+                    imagesGrid.innerHTML = '<p>Erro ao buscar imagens. Por favor, tente novamente.</p>';
+                });
+            });
+            
+            // Adicionar listener para tecla Enter no campo de busca de imagens
+            document.getElementById('images-input').addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    document.getElementById('search-images').click();
+                }
+            });
+            
+            const closeImageModal = document.querySelector('.close-image-modal');
+            const imageModal = document.getElementById('image-modal');
+            const downloadImageLink = document.getElementById('download-image-link');
+            const modalImage = document.getElementById('modal-image');
+            
+            closeImageModal.addEventListener('click', function() {
+                imageModal.style.display = 'none';
+            });
+            
+            imageModal.addEventListener('click', function(event) {
+                if (event.target === imageModal) {
+                    imageModal.style.display = 'none';
+                }
+            });
+            
+            // Atualizar link de download quando uma imagem é exibida no modal
+            modalImage.addEventListener('load', function() {
+                const imageUrl = modalImage.src;
+                downloadImageLink.href = imageUrl;
+                
+                // Extrair o nome do arquivo da URL ou usar um nome padrão
+                const fileName = imageUrl.split('/').pop().split('?')[0] || 'imagem.jpg';
+                downloadImageLink.setAttribute('download', fileName);
             });
 
             document.getElementById('analyze-ip').addEventListener('click', async function() {
