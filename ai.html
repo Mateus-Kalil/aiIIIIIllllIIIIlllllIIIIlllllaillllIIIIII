@@ -6,7 +6,7 @@
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
     <meta http-equiv="X-Frame-Options" content="DENY">
     <meta http-equiv="X-XSS-Protection" content="1; mode=block">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self' https://cdnjs.cloudflare.com https://translate.terraprint.co https://viacep.com.br https://ipapi.co https://api.allorigins.win 'unsafe-inline' data:;">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' https://cdnjs.cloudflare.com https://translate.terraprint.co https://viacep.com.br http://ip-api.com https://api.allorigins.win 'unsafe-inline' data:;">
     <meta http-equiv="Referrer-Policy" content="no-referrer">
     <meta http-equiv="Strict-Transport-Security" content="max-age=31536000; includeSubDomains">
     <title>WolfGuard AI</title>
@@ -147,30 +147,34 @@
         }
         
         .input-container {
-            position: relative;
+            display: flex;
+            align-items: center;
             padding: 10px;
             background-color: var(--card);
             border-radius: 15px;
             border: 1px solid rgba(255, 255, 255, 0.1);
             flex-shrink: 0;
         }
-        
+
         .input-container textarea {
-            width: 100%;
-            padding: 15px;
+            flex: 1;
+            padding: 10px;
             border: none;
-            border-radius: 10px;
             background-color: transparent;
             color: var(--text);
             resize: none;
             outline: none;
             font-size: 16px;
+            height: 40px; 
+            line-height: 20px;
+            overflow-y: auto;
         }
-        
+
         .input-buttons {
             display: flex;
-            justify-content: space-between;
-            padding: 10px;
+            align-items: center;
+            gap: 10px;
+            margin-left: 10px;
         }
         
         .tools {
@@ -185,6 +189,7 @@
             font-size: 20px;
             cursor: pointer;
             transition: all 0.3s ease;
+            padding: 5px;
         }
         
         .tools button:hover {
@@ -614,7 +619,7 @@
                 </div>
                 
                 <div class="input-container">
-                    <textarea placeholder="Digite sua mensagem aqui..." rows="3" id="chat-input"></textarea>
+                    <textarea placeholder="Digite sua mensagem aqui..." rows="1" id="chat-input"></textarea>
                     <div class="input-buttons">
                         <div class="tools">
                             <button id="mic-btn"><i class="fas fa-microphone"></i></button>
@@ -632,7 +637,6 @@
                     <button id="search-fotos-ai">Pesquisar Imagens</button>
                 </div>
                 <div class="result-container" id="fotos-ai-results">
-                    <!-- Imagens pesquisadas aparecerão aqui -->
                 </div>
             </div>
             
@@ -1383,21 +1387,12 @@
         }
 
         async function getIPInfo(ip) {
-            try {
-                const response = await fetch(`https://ipapi.co/${ip}/json/`);
-                return await response.json();
-            } catch (error) {
-                return {
-                    ip: ip,
-                    city: 'São Paulo',
-                    region: 'São Paulo',
-                    country_name: 'Brasil',
-                    org: 'Vivo Fibra',
-                    latitude: -23.5505,
-                    longitude: -46.6333,
-                    timezone: 'America/Sao_Paulo'
-                };
+            const response = await fetch(`http://ip-api.com/json/${ip}?fields=status,message,country,city,lat,lon,timezone,isp,query`);
+            const data = await response.json();
+            if (data.status !== 'success') {
+                throw new Error(data.message || 'Falha ao buscar informações do IP.');
             }
+            return data;
         }
 
         async function getCEPInfo(cep) {
@@ -1680,31 +1675,31 @@
                     const resultCard = document.createElement('div');
                     resultCard.className = 'result-card';
                     resultCard.innerHTML = `
-                        <div class="result-title">Informações do IP: ${ipInput}</div>
+                        <div class="result-title">Informações do IP: ${ipInfo.query}</div>
                         <div class="result-data">
                             <div class="data-item">
                                 <span class="data-label">País:</span>
-                                <span class="data-value">${ipInfo.country_name || 'Brasil'}</span>
+                                <span class="data-value">${ipInfo.country || 'N/A'}</span>
                             </div>
                             <div class="data-item">
                                 <span class="data-label">Cidade:</span>
-                                <span class="data-value">${ipInfo.city || 'São Paulo'}</span>
+                                <span class="data-value">${ipInfo.city || 'N/A'}</span>
                             </div>
                             <div class="data-item">
-                                <span class="data-label">ISP:</span>
-                                <span class="data-value">${ipInfo.org || 'Vivo Fibra'}</span>
+                                <span class="data-label">ISP (Provedor):</span>
+                                <span class="data-value">${ipInfo.isp || 'N/A'}</span>
                             </div>
                             <div class="data-item">
                                 <span class="data-label">Latitude:</span>
-                                <span class="data-value">${ipInfo.latitude || '-23.5505'}</span>
+                                <span class="data-value">${ipInfo.lat || 'N/A'}</span>
                             </div>
                             <div class="data-item">
                                 <span class="data-label">Longitude:</span>
-                                <span class="data-value">${ipInfo.longitude || '-46.6333'}</span>
+                                <span class="data-value">${ipInfo.lon || 'N/A'}</span>
                             </div>
                             <div class="data-item">
-                                <span class="data-label">Timezone:</span>
-                                <span class="data-value">${ipInfo.timezone || 'America/Sao_Paulo'}</span>
+                                <span class="data-label">Fuso Horário:</span>
+                                <span class="data-value">${ipInfo.timezone || 'N/A'}</span>
                             </div>
                         </div>
                     `;
@@ -1718,7 +1713,7 @@
                     errorCard.innerHTML = `
                         <div class="result-title">Erro na análise</div>
                         <p>Não foi possível analisar o IP: ${ipInput}</p>
-                        <p>Por favor, verifique se o IP está correto e tente novamente.</p>
+                        <p>${error.message}</p>
                     `;
                     
                     ipResults.appendChild(errorCard);
