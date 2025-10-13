@@ -6,7 +6,7 @@
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
     <meta http-equiv="X-Frame-Options" content="DENY">
     <meta http-equiv="X-XSS-Protection" content="1; mode=block">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self' https://cdnjs.cloudflare.com https://translate.terraprint.co https://viacep.com.br https://ipapi.co https://api.allorigins.win 'unsafe-inline';">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' https://cdnjs.cloudflare.com https://translate.terraprint.co https://viacep.com.br https://ipapi.co https://api.allorigins.win 'unsafe-inline' data:;">
     <meta http-equiv="Referrer-Policy" content="no-referrer">
     <meta http-equiv="Strict-Transport-Security" content="max-age=31536000; includeSubDomains">
     <title>WolfGuard AI</title>
@@ -34,7 +34,7 @@
         body {
             background-color: var(--bg);
             color: var(--text);
-            overflow-x: hidden;
+            overflow: hidden;
         }
         
         #canvas-container {
@@ -48,7 +48,7 @@
         
         .container {
             display: flex;
-            min-height: 100vh;
+            height: 100vh;
         }
         
         .sidebar {
@@ -115,6 +115,7 @@
             flex-direction: column;
             padding: 20px;
             max-width: calc(100% - 300px);
+            height: 100vh;
         }
         
         .chat-container {
@@ -151,6 +152,7 @@
             background-color: var(--card);
             border-radius: 15px;
             border: 1px solid rgba(255, 255, 255, 0.1);
+            flex-shrink: 0;
         }
         
         .input-container textarea {
@@ -209,6 +211,8 @@
             display: none;
             flex: 1;
             flex-direction: column;
+            height: 100%;
+            overflow: hidden;
         }
         
         .tab-container.active {
@@ -221,6 +225,7 @@
             padding: 15px;
             margin-bottom: 20px;
             border: 1px solid rgba(255, 255, 255, 0.1);
+            flex-shrink: 0;
         }
         
         .search-box input {
@@ -295,7 +300,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 200px;
+            height: 100%;
         }
         
         .spinner {
@@ -305,6 +310,26 @@
             border-radius: 50%;
             border-top-color: var(--primary);
             animation: spin 1s ease-in-out infinite;
+        }
+
+        #fotos-ai-results {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+        }
+        
+        #fotos-ai-results img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 8px;
+            animation: fadeIn 0.5s;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        #fotos-ai-results img:hover {
+            transform: scale(1.05);
         }
         
         @keyframes spin {
@@ -552,6 +577,10 @@
                     <i class="fas fa-comment-alt"></i>
                     Chat AI
                 </div>
+                <div class="menu-item" data-tab="fotos-ai">
+                    <i class="fas fa-images"></i>
+                    Fotos AI
+                </div>
                 <div class="menu-item" data-tab="ip">
                     <i class="fas fa-network-wired"></i>
                     Análise de IP
@@ -594,6 +623,16 @@
                         </div>
                         <button class="send-btn" id="send-btn">Enviar</button>
                     </div>
+                </div>
+            </div>
+
+            <div class="tab-container" id="fotos-ai-tab">
+                <div class="search-box">
+                    <input type="text" placeholder="Digite um termo para buscar fotos (ex: batman, paisagem)..." id="fotos-ai-input">
+                    <button id="search-fotos-ai">Pesquisar Imagens</button>
+                </div>
+                <div class="result-container" id="fotos-ai-results">
+                    <!-- Imagens pesquisadas aparecerão aqui -->
                 </div>
             </div>
             
@@ -1376,6 +1415,36 @@
                 };
             }
         }
+        
+        async function getAIImages(query) {
+            try {
+                const url = `https://api.allorigins.win/get?url=${encodeURIComponent('https://duckduckgo.com/html/?q=' + encodeURIComponent(query) + '&iax=images&ia=images')}`;
+                const response = await fetch(url);
+                if (!response.ok) throw new Error('Falha na busca de imagens.');
+                
+                const data = await response.json();
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(data.contents, 'text/html');
+                
+                const imageElements = doc.querySelectorAll('.tile--img__img');
+                const imageUrls = [];
+                
+                imageElements.forEach(img => {
+                    const src = img.getAttribute('data-src');
+                    if (src) {
+                        const fullUrl = 'https:' + src.replace('//', '');
+                        imageUrls.push(fullUrl);
+                    }
+                });
+
+                if (imageUrls.length === 0) throw new Error('Nenhuma imagem encontrada.');
+                
+                return imageUrls.slice(0, 20);
+            } catch (error) {
+                console.error("Erro ao buscar imagens:", error);
+                return null;
+            }
+        }
 
         async function getThreatInfo(threat) {
             try {
@@ -1564,6 +1633,33 @@
             const imgBtn = document.getElementById('img-btn');
             imgBtn.addEventListener('click', function() {
                 alert('Função de imagem em desenvolvimento.');
+            });
+
+            document.getElementById('search-fotos-ai').addEventListener('click', async function() {
+                const query = document.getElementById('fotos-ai-input').value.trim();
+                if (!query) return;
+
+                const resultsContainer = document.getElementById('fotos-ai-results');
+                resultsContainer.innerHTML = `
+                    <div class="loading" style="grid-column: 1 / -1;">
+                        <div class="spinner"></div>
+                    </div>
+                `;
+                
+                const imageUrls = await getAIImages(query);
+                
+                resultsContainer.innerHTML = '';
+                
+                if (imageUrls && imageUrls.length > 0) {
+                    imageUrls.forEach(url => {
+                        const img = document.createElement('img');
+                        img.src = url;
+                        img.alt = query;
+                        resultsContainer.appendChild(img);
+                    });
+                } else {
+                    resultsContainer.innerHTML = `<p style="grid-column: 1 / -1; text-align: center;">Não foi possível encontrar imagens para "${query}". Tente outro termo.</p>`;
+                }
             });
 
             document.getElementById('analyze-ip').addEventListener('click', async function() {
