@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Comprar Licença - WolfGuard</title>
+
+    <link rel="icon" href="favicon2.png" type="image/x-icon" />
+    <link rel="shortcut icon" href="favicon2.png" type="image/x-icon" />
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <style>
+        :root {
+            --primary: #6a11cb;
+            --secondary: #2575fc;
+            --dark: #040316;
+            --light: #ffffff;
+            --gradient: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            --radius: 14px;
+            --transition: 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(270deg, #040316, #1a1a3d, #040316);
+            background-size: 600% 600%;
+            animation: gradientBG 20s ease infinite;
+            color: var(--light);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        header {
+            width: 100%;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.25);
+            padding: 1rem 2rem;
+        }
+
+        .navbar {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .navbar .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-size: 1.4rem;
+            font-weight: 700;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .navbar .logo img {
+            height: 28px;
+        }
+
+        .back-link a {
+            color: var(--light);
+            text-decoration: none;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: var(--transition);
+        }
+
+        .back-link a:hover {
+            color: var(--secondary);
+            transform: translateX(-5px);
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 4rem 1.5rem;
+        }
+
+        .purchase-container {
+            width: 100%;
+            max-width: 1000px;
+            background: rgba(10, 10, 35, 0.6);
+            backdrop-filter: blur(10px);
+            border-radius: var(--radius);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+            border: 1px solid rgba(106, 17, 203, 0.2);
+            overflow: hidden;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .plans-section {
+            padding: 2.5rem;
+            border-right: 1px solid rgba(106, 17, 203, 0.2);
+        }
+
+        .plans-section h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .plans-section p {
+            color: #b8b8d0;
+            margin-bottom: 2rem;
+        }
+
+        .plan-card {
+            background: rgba(255,255,255,0.05);
+            border: 2px solid transparent;
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+        }
+        
+        .plan-card:hover {
+            background: rgba(255,255,255,0.1);
+            transform: translateY(-5px);
+        }
+
+        .plan-card.active {
+            border-color: var(--secondary);
+            background: rgba(37, 117, 252, 0.1);
+            box-shadow: 0 0 20px rgba(37, 117, 252, 0.2);
+        }
+
+        .plan-card .best-value {
+            position: absolute;
+            top: -1px;
+            right: 20px;
+            background: var(--gradient);
+            color: white;
+            padding: 0.3rem 1rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            border-radius: 0 0 var(--radius) var(--radius);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+
+        .plan-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .plan-title i {
+            font-size: 1rem;
+            color: var(--light);
+            width: 25px;
+            height: 25px;
+            border: 2px solid #b8b8d0;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .plan-card.active .plan-title i {
+            background: var(--secondary);
+            border-color: var(--secondary);
+            color: white;
+        }
+
+        .plan-price {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin: 0.5rem 0;
+        }
+
+        .plan-price span {
+            font-size: 1rem;
+            font-weight: 400;
+            color: #b8b8d0;
+        }
+        
+        .plan-card ul {
+            list-style: none;
+            margin-top: 1rem;
+        }
+        
+        .plan-card ul li {
+            margin-bottom: 0.5rem;
+            color: #b8b8d0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .plan-card ul li i {
+            color: #2ed573;
+        }
+
+        .checkout-section {
+            padding: 2.5rem;
+            background: rgba(0,0,0,0.2);
+        }
+
+        .checkout-section h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid rgba(106, 17, 203, 0.2);
+            padding-bottom: 1rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #d8d8e8;
+        }
+
+        .form-group input {
+            width: 100%;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 0.8rem 1rem;
+            border-radius: calc(var(--radius) - 6px);
+            color: white;
+            transition: var(--transition);
+            font-size: 1rem;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--secondary);
+            box-shadow: 0 0 10px rgba(37, 117, 252, 0.3);
+        }
+
+        .payment-methods {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .payment-method {
+            flex: 1;
+            padding: 0.8rem;
+            border-radius: calc(var(--radius) - 6px);
+            border: 2px solid rgba(255,255,255,0.1);
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .payment-method:hover {
+            background: rgba(255,255,255,0.05);
+        }
+
+        .payment-method.active {
+            border-color: var(--secondary);
+            background: rgba(37, 117, 252, 0.1);
+        }
+
+        .payment-details {
+            background: rgba(0,0,0,0.3);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            min-height: 200px;
+        }
+        
+        #pix-details .qr-code {
+            text-align: center;
+        }
+        #pix-details .qr-code img {
+            width: 150px;
+            height: 150px;
+            background: white;
+            border-radius: var(--radius);
+            padding: 10px;
+        }
+        
+        #pix-details p {
+            text-align: center;
+            color: #b8b8d0;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .credit-card-form .form-row {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 1rem;
+            border: none;
+            border-radius: var(--radius);
+            background: var(--gradient);
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 2rem;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 25px rgba(0,0,0,0.4);
+        }
+        
+        .summary {
+            margin-top: 2rem;
+            background: rgba(255,255,255,0.05);
+            padding: 1rem;
+            border-radius: var(--radius);
+        }
+        
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+        
+        .summary-total {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+        
+        .summary-total .total-price {
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: #9e9eb7;
+            font-size: 0.9rem;
+            background: rgba(0,0,0,0.25);
+        }
+
+        @media(max-width: 920px) {
+            .purchase-container {
+                grid-template-columns: 1fr;
+            }
+            .plans-section {
+                border-right: none;
+                border-bottom: 1px solid rgba(106, 17, 203, 0.2);
+            }
+        }
+        @media(max-width: 480px) {
+            main {
+                padding: 1rem;
+            }
+            .plans-section, .checkout-section {
+                padding: 1.5rem;
+            }
+            .credit-card-form .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+            .form-row .form-group {
+                margin-bottom: 1.2rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="navbar">
+            <div class="logo">
+                <img src="favicon2.png" alt="WolfGuard Logo">
+                WolfGuard
+            </div>
+            <div class="back-link">
+                <a href="https://fiap.site/"><i class="fa-solid fa-arrow-left"></i> Voltar ao Site Principal</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="purchase-container">
+            <section class="plans-section">
+                <h1>Adquira sua Licença</h1>
+                <p>Escolha o plano ideal para você e garanta proteção completa 24h por dia.</p>
+                
+                <div class="plan-card" id="plan-monthly">
+                    <div class="plan-title">
+                        <i class="fa-solid fa-check"></i>
+                        Plano Mensal
+                    </div>
+                    <div class="plan-price">R$ 25 <span>/mês</span></div>
+                    <p class="plan-description">Proteção completa com flexibilidade de pagamento mensal.</p>
+                    <ul>
+                        <li><i class="fa-solid fa-shield-virus"></i> Todos os recursos de proteção</li>
+                        <li><i class="fa-solid fa-cloud-arrow-down"></i> Atualizações contínuas</li>
+                        <li><i class="fa-solid fa-headset"></i> Suporte por e-mail</li>
+                    </ul>
+                </div>
+                
+                <div class="plan-card active" id="plan-annual">
+                    <div class="best-value">Melhor Custo-Benefício</div>
+                    <div class="plan-title">
+                        <i class="fa-solid fa-check"></i>
+                        Plano Anual
+                    </div>
+                    <div class="plan-price">R$ 200 <span>/ano</span></div>
+                    <p class="plan-description">Economize mais de 30% com o nosso plano anual.</p>
+                     <ul>
+                        <li><i class="fa-solid fa-shield-virus"></i> Todos os recursos de proteção</li>
+                        <li><i class="fa-solid fa-cloud-arrow-down"></i> Atualizações contínuas</li>
+                        <li><i class="fa-solid fa-headset"></i> Suporte prioritário 24/7</li>
+                    </ul>
+                </div>
+            </section>
+            
+            <section class="checkout-section">
+                <form id="purchase-form" action="mailto:wolfguardsuporte@gmail.com" method="post" enctype="text/plain">
+                    <h2>Detalhes do Pagamento</h2>
+
+                    <div class="form-group">
+                        <label for="name">Nome Completo</label>
+                        <input type="text" id="name" name="Nome" placeholder="Seu nome e sobrenome" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">E-mail para Receber a Licença</label>
+                        <input type="email" id="email" name="Email" placeholder="seuemail@dominio.com" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Método de Pagamento</label>
+                        <div class="payment-methods">
+                            <div class="payment-method active" data-method="pix">
+                                <i class="fa-brands fa-pix"></i> PIX
+                            </div>
+                            <div class="payment-method" data-method="card">
+                                <i class="fa-solid fa-credit-card"></i> Cartão de Crédito
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="payment-details-container">
+                        <div class="payment-details" id="pix-details">
+                            <div class="qr-code">
+                                <img src="https://i.ibb.co/Yd4w3yv/qrcode.png" alt="QR Code PIX">
+                            </div>
+                            <p>Escaneie o QR Code ou use o código abaixo para pagar. Após a confirmação, sua licença será enviada por e-mail.</p>
+                        </div>
+                        
+                        <div class="payment-details" id="card-details" style="display: none;">
+                           <div class="credit-card-form">
+                                <div class="form-group">
+                                    <label for="card-number">Número do Cartão</label>
+                                    <input type="text" id="card-number" placeholder="0000 0000 0000 0000">
+                                </div>
+                                 <div class="form-group">
+                                    <label for="card-name">Nome no Cartão</label>
+                                    <input type="text" id="card-name" placeholder="Como aparece no cartão">
+                                </div>
+                                <div class="form-row">
+                                     <div class="form-group">
+                                        <label for="card-expiry">Validade</label>
+                                        <input type="text" id="card-expiry" placeholder="MM/AA">
+                                    </div>
+                                     <div class="form-group">
+                                        <label for="card-cvv">CVV</label>
+                                        <input type="text" id="card-cvv" placeholder="123">
+                                    </div>
+                                </div>
+                           </div>
+                        </div>
+                    </div>
+
+                    <div class="summary">
+                        <div class="summary-item">
+                            <span>Plano Selecionado:</span>
+                            <span id="summary-plan">Anual</span>
+                        </div>
+                         <div class="summary-item summary-total">
+                            <span>Total:</span>
+                            <span class="total-price" id="summary-price">R$ 200,00</span>
+                        </div>
+                    </div>
+                    
+                    <input type="hidden" id="plano-selecionado" name="Plano Selecionado" value="Anual">
+
+                    <button type="submit" class="submit-btn">
+                        <i class="fa-solid fa-lock"></i> Finalizar Compra
+                    </button>
+                </form>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <p>WolfGuard &copy; 2025 &middot; Todos os direitos reservados. Transação segura.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const planMonthly = document.getElementById('plan-monthly');
+            const planAnnual = document.getElementById('plan-annual');
+            const summaryPlan = document.getElementById('summary-plan');
+            const summaryPrice = document.getElementById('summary-price');
+            const hiddenPlanInput = document.getElementById('plano-selecionado');
+            
+            const paymentMethods = document.querySelectorAll('.payment-method');
+            const pixDetails = document.getElementById('pix-details');
+            const cardDetails = document.getElementById('card-details');
+
+            function updateSummary(planName, price) {
+                planMonthly.classList.remove('active');
+                planAnnual.classList.remove('active');
+
+                if (planName === 'Mensal') {
+                    planMonthly.classList.add('active');
+                } else {
+                    planAnnual.classList.add('active');
+                }
+
+                summaryPlan.textContent = planName;
+                summaryPrice.textContent = price;
+                hiddenPlanInput.value = `${planName} - ${price}`;
+            }
+
+            planMonthly.addEventListener('click', () => {
+                updateSummary('Mensal', 'R$ 25,00');
+            });
+
+            planAnnual.addEventListener('click', () => {
+                updateSummary('Anual', 'R$ 200,00');
+            });
+            
+            paymentMethods.forEach(method => {
+                method.addEventListener('click', () => {
+                    paymentMethods.forEach(m => m.classList.remove('active'));
+                    method.classList.add('active');
+                    
+                    if (method.dataset.method === 'pix') {
+                        pixDetails.style.display = 'block';
+                        cardDetails.style.display = 'none';
+                    } else {
+                        pixDetails.style.display = 'none';
+                        cardDetails.style.display = 'block';
+                    }
+                });
+            });
+            
+            document.getElementById('purchase-form').addEventListener('submit', function(e) {
+                const name = document.getElementById('name').value;
+                const email = document.getElementById('email').value;
+
+                if (!name || !email) {
+                    alert('Por favor, preencha seu nome e e-mail antes de continuar.');
+                    e.preventDefault();
+                    return;
+                }
+
+                alert('Você será redirecionado para o seu cliente de e-mail para enviar as informações do pedido. Após o envio e confirmação do pagamento, sua licença será enviada para o e-mail informado.');
+            });
+
+            // Initialize summary
+            updateSummary('Anual', 'R$ 200,00');
+        });
+    </script>
+</body>
+</html>
