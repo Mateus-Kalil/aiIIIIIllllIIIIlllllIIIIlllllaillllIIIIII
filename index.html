@@ -1127,10 +1127,12 @@
         <div class="login-logo">itaú</div>
         <div class="login-card">
             <div class="login-title">Digite sua senha</div>
-            <div class="input-group">
-                <input type="password" id="passwordInput" class="input-field" maxlength="4" placeholder="••••">
-            </div>
-            <button class="orange-btn" onclick="login()">Acessar</button>
+            <form onsubmit="return handleLogin(event);">
+                <div class="input-group">
+                    <input type="password" id="passwordInput" class="input-field" maxlength="4" placeholder="••••" inputmode="numeric">
+                </div>
+                <button type="submit" class="orange-btn">Acessar</button>
+            </form>
         </div>
     </div>
 
@@ -1143,7 +1145,7 @@
                     </svg>
                 </div>
                 <div class="profile-info">
-                    <h3 id="userName">Mateus</h3>
+                    <h3 id="userName">Mateus Kalil</h3>
                     <p>Aproveite o nível 2</p>
                 </div>
             </div>
@@ -3155,6 +3157,12 @@
             }
         }
 
+        function handleLogin(event) {
+            if (event) event.preventDefault();
+            login();
+            return false;
+        }
+
         function login() {
             const password = document.getElementById('passwordInput').value;
             if (password === appState.loginPassword) {
@@ -4367,6 +4375,66 @@ Status: ✓ Concluído
         function showItauShopError() {
             alert('❌ Erro ao acessar Itaú Shop\n\nServiço temporariamente indisponível.\nTente novamente mais tarde.');
         }
+
+        // Inicialização e configuração para WebView/APK
+        document.addEventListener('DOMContentLoaded', function() {
+            // Prevenir comportamento padrão de links
+            document.addEventListener('click', function(e) {
+                const target = e.target.closest('a');
+                if (target && target.href && !target.href.startsWith('javascript:')) {
+                    e.preventDefault();
+                }
+            }, true);
+
+            // Garantir que input de senha funcione em WebView
+            const passwordInput = document.getElementById('passwordInput');
+            if (passwordInput) {
+                passwordInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter' || e.keyCode === 13) {
+                        e.preventDefault();
+                        login();
+                    }
+                });
+
+                // Focar automaticamente no input
+                setTimeout(() => {
+                    passwordInput.focus();
+                }, 300);
+            }
+
+            // Prevenir zoom em inputs (WebView)
+            document.querySelectorAll('input, select, textarea').forEach(function(element) {
+                element.addEventListener('focus', function() {
+                    this.style.fontSize = '16px';
+                });
+            });
+
+            // Detectar se está em WebView
+            const isWebView = /wv|WebView|(iPhone|iPod|iPad)(?!.*Safari\/)/i.test(navigator.userAgent);
+            if (isWebView) {
+                console.log('Rodando em WebView/APK');
+                document.body.classList.add('webview-mode');
+            }
+
+            // Prevenir seleção de texto em elementos interativos
+            document.querySelectorAll('button, .quick-action, .menu-item, .card-banner, .option-card').forEach(function(element) {
+                element.style.userSelect = 'none';
+                element.style.webkitUserSelect = 'none';
+                element.style.webkitTouchCallout = 'none';
+            });
+        });
+
+        // Prevenir context menu (segurar clique)
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+            return false;
+        });
+
+        // Prevenir arrastar elementos
+        document.addEventListener('dragstart', function(e) {
+            e.preventDefault();
+            return false;
+        });
     </script>
 </body>
 </html>
